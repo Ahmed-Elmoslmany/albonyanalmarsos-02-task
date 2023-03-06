@@ -1,0 +1,715 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  /* font-size: 10px; */
+
+  /* 10px / 16px = 0.625 = 62.5% */
+  /* Percentage of user's browser font-size setting */
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  position: relative;
+  /* Only works if there is nothing absolutely positioned in relation to body */
+  background-color: #009578;
+  scroll-behavior: smooth;
+}
+
+
+header h1{
+  color: #fff;
+  font-weight: 700;
+  font-size: 3.2rem;
+  text-align: center;
+  margin-top: 6.4rem;
+}
+.grid{
+  margin-top: 3.2rem;
+  padding: 3.2rem 2.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.4rem;
+}
+
+.main-list{
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.list-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+  padding: 2.8rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.list-container h1{
+  color: #fff;
+  font-weight: 700;
+  font-size: 3.2rem;
+  margin-bottom: 1.2rem;
+  text-align: center;
+}
+
+.add{
+  color: #fff;
+  padding: 1.2rem .6rem;
+  border-radius: 9px;
+  font-size: 2.8rem;
+  margin-bottom: 2.4rem;
+  text-align: center;
+  background-color: #00866d;
+  outline: none;
+  border: 0;
+  
+}
+
+.add.addStart,
+.add.addProg,
+.add.addComp{
+  width: 90%;
+}
+
+
+.draggable {
+  background-color: #fff;
+  padding: 1.2rem .6rem;
+  border-radius: 9px;
+  display: flex;
+  gap: 1.2rem;
+}
+
+.draggable input{
+  outline: none;
+  border: 0;
+  background-color: #fff;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.draggable input.focus{
+  outline:  3px solid #00866d;
+  border-radius: 3px;
+  caret-color: #009578
+  
+
+}
+
+.icon{
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+
+.edit{
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 5px;
+  padding: 0.2rem 0.2rem;
+  border: none;
+}
+
+.delete{
+  /* background-color: #e74c3c; */
+  color: #e74c3c;
+  font-size: 2.4rem;
+  border-radius: 5px;
+  padding: 0.2rem 0.2rem;
+  border: none;
+
+}
+.delete:active,
+.edit:active,
+.add:active{
+  scale: .98;
+  
+}
+
+
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    
+  }
+  html{font-size: 55.5%;}
+}
+
+/* Add task */
+
+.btn-toggle {
+  display: block;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.add.btn{
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.text-box {
+  width: 70%;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -800px);
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  transition: all 1s ease-in-out;
+  z-index: 10;
+}
+
+
+.text-box textarea{
+  border: 1px #dadada solid;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 8px; 
+  margin: 15px 0;
+  width: 100%;
+  height: 4.8rem;
+}  
+textarea.error{
+  border: 4.2px #e74c3c solid;
+  border-radius: 9px;
+}  
+
+.text-box.show{
+  transform: translate(-50%, 0);
+
+}
+
+.text-box .close{
+  float: right;
+  text-align: right;
+  cursor: pointer;
+}
+
+.form-btns{
+  display: flex;
+  gap: 2.4rem;
+}
+
+/* Drag and drop style */
+
+.draggable {
+  
+  cursor: move;
+  
+}
+
+.draggable.dragging {
+  opacity: .5;
+
+  /* animation: bb-drag 0.3s linear */
+  transform: all 3s ease-in;
+
+}
+
+.draggable.bb-drag{
+  /* background-color: red;
+  border: 0;
+  color: red; */
+  border-bottom: 15px solid #006451;
+}
+
+/* End drag and drop style */
+
+
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    
+  }
+  html{font-size: 48.5%;}
+}
+
+@media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  html{font-size: 48.5%;}
+}
+
+
+
+/* Last Modify Js code
+
+
+
+
+
+const addStart = document.querySelector('.addStart')
+const addProg = document.querySelector('.addProg')
+const addComp = document.querySelector('.addComp')
+let startedList = document.querySelector('.started-list')
+let progressList = document.querySelector('.progress-list')
+let completedList = document.querySelector('.completed-list')
+const closeBtn = document.getElementById('close');
+const addTask1 = document.getElementById('addTask1');
+const addTask2 = document.getElementById('addTask2');
+const addTask3 = document.getElementById('addTask3');
+const textarea = document.getElementById('text');
+
+
+
+// listen to buttons
+function targetListByBtn1(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addToList1)
+  addTask2.addEventListener('click', addToList2)
+  addTask3.addEventListener('click', addToList3)  
+  // console.log("strta")
+}
+
+// add new task to target list (listName)
+function addToList1(){
+  // Show AddTask Layout
+  const TaskEl = document.createElement('div');
+
+    // create taskel
+    TaskEl.className = 'draggable'
+    TaskEl.setAttribute('draggable', 'draggable')
+
+    // create addData to taskel
+    TaskEl.innerHTML = `
+    <input type="text" value="hoho" readonly>
+    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
+
+    `
+    // Append task to list
+    startedList.appendChild(TaskEl)
+    // console.log(startedList.lastElementChild); 
+
+    // Add Value from user to current new task
+    startedList.lastElementChild.querySelector('input').value = textarea.value
+    
+    document.getElementById('text-box').classList.remove('show')
+    textarea.value = ''
+}
+
+// listen to buttons
+function targetListByBtn2(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addToList1)
+  addTask2.addEventListener('click', addToList2)
+  addTask3.addEventListener('click', addToList3)  
+  // console.log("strta")
+}
+
+// add new task to target list (listName)
+function addToList2(){
+  // Show AddTask Layout
+  const TaskEl = document.createElement('div');
+
+    // create taskel
+    TaskEl.className = 'draggable'
+    TaskEl.setAttribute('draggable', 'draggable')
+
+    // create addData to taskel
+    TaskEl.innerHTML = `
+    <input type="text" value="hoho" readonly>
+    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
+
+    `
+    // Append task to list
+    progressList.appendChild(TaskEl)
+    // console.log(startedList.lastElementChild); 
+
+    // Add Value from user to current new task
+    progressList.lastElementChild.querySelector('input').value = textarea.value
+    
+    document.getElementById('text-box').classList.remove('show')
+    textarea.value = ''
+}
+
+// listen to buttons
+function targetListByBtn3(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addToList1)
+  addTask2.addEventListener('click', addToList2)
+  addTask3.addEventListener('click', addToList3)
+  
+  // console.log("strta")
+}
+
+// add new task to target list (listName)
+function addToList3(){
+  // Show AddTask Layout
+  const TaskEl = document.createElement('div');
+
+    // create taskel
+    TaskEl.className = 'draggable'
+    TaskEl.setAttribute('draggable', 'draggable')
+
+    // create addData to taskel
+    TaskEl.innerHTML = `
+    <input type="text" value="hoho" readonly>
+    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
+
+    `
+    // Append task to list
+    completedList.appendChild(TaskEl)
+    // console.log(startedList.lastElementChild); 
+
+    // Add Value from user to current new task
+    completedList.lastElementChild.querySelector('input').value = textarea.value
+    
+    document.getElementById('text-box').classList.remove('show')
+    textarea.value = ''
+}
+
+
+// open add task container
+addStart.addEventListener('click', targetListByBtn1)
+addProg.addEventListener('click', targetListByBtn2)
+addComp.addEventListener('click', targetListByBtn3)
+
+// close add task container
+closeBtn.addEventListener('click', () => {
+  document.getElementById('text-box').classList.remove('show')
+})
+
+
+*/
+
+
+
+/* Add and remove smooth 
+
+
+let StartedTasks = localStorage.getItem('StartedTasks') !== null ?
+JSON.parse(localStorage.getItem('StartedTasks')) : []
+function generateID() {
+  return Math.floor(Math.random() * 100000000);
+}
+
+function addStartedDom(StartedTasks){
+  
+      const TaskEl = document.createElement('div');
+
+    // create taskel
+    TaskEl.className = 'draggable'
+    TaskEl.setAttribute('draggable', 'draggable')
+
+    // create addData to taskel
+    TaskEl.innerHTML = `
+    <input type="text" value="${StartedTasks.text}" " readonly>
+    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete" onclick="removeTransTask1(${StartedTasks.id})">XXX</button>
+
+    `
+
+    // Append task to list
+    startedList.appendChild(TaskEl)
+
+    
+  
+}
+function addTransTask1(){
+  const StartTask = {
+    id: generateID(),
+    text: textarea.value
+  }
+  StartedTasks.push(StartTask)
+  addStartedDom(StartTask)
+  setStartedTasks()
+  textarea.value = ''
+
+}
+function setStartedTasks(){
+  localStorage.setItem('StartedTasks', JSON.stringify(StartedTasks))
+}
+function removeTransTask1(id){
+  StartedTasks = StartedTasks.filter((item) => item.id !== id)
+  init();
+  setStartedTasks()
+
+ 
+  
+}
+function init(){
+  startedList.innerHTML =''
+  StartedTasks.forEach(addStartedDom)
+  
+}
+
+
+*/
+
+
+
+/* Last update (set to and get data from local storage for all tasks mode (Complete Code)
+
+
+const addStart = document.querySelector('.addStart')
+const addProg = document.querySelector('.addProg')
+const addComp = document.querySelector('.addComp')
+let startedList = document.querySelector('.started-list')
+let progressList = document.querySelector('.progress-list')
+let completedList = document.querySelector('.completed-list')
+const closeBtn = document.getElementById('close');
+const addTask1 = document.getElementById('addTask1');
+const addTask2 = document.getElementById('addTask2');
+const addTask3 = document.getElementById('addTask3');
+const textarea = document.getElementById('text');
+
+let StartedTasks = localStorage.getItem('StartedTasks') !== null ?
+JSON.parse(localStorage.getItem('StartedTasks')) : []
+let ProgressTasks = localStorage.getItem('ProgressTasks') !== null ?
+JSON.parse(localStorage.getItem('ProgressTasks')) : []
+let CompletedTasks = localStorage.getItem('CompletedTasks') !== null ?
+JSON.parse(localStorage.getItem('CompletedTasks')) : []
+
+
+
+// Generate random ID
+function generateID() {
+  return Math.floor(Math.random() * 100000000);
+}
+
+
+function addStartedDom(StartedTasks){
+  
+      const TaskEl = document.createElement('div');
+
+    // create taskel
+    TaskEl.className = 'draggable'
+    TaskEl.setAttribute('draggable', 'draggable')
+
+    // create addData to taskel
+    TaskEl.innerHTML = `
+    <input type="text" value="${StartedTasks.text}" " readonly>
+    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete" onclick="removeTransTask1(${StartedTasks.id})">XXX</button>
+
+    `
+
+    // Append task to list
+    startedList.appendChild(TaskEl)
+    document.getElementById('text-box').classList.remove('show')
+
+    
+  
+}
+
+
+
+function addTransStart(){
+  const StartTask = {
+    id: generateID(),
+    text: textarea.value
+  }
+  StartedTasks.push(StartTask)
+  addStartedDom(StartTask)
+  setStartedTasks()
+  textarea.value = ''
+
+}
+
+
+function addProssedDom(ProgressTasks){
+  
+  const TaskEl = document.createElement('div');
+
+// create taskel
+TaskEl.className = 'draggable'
+TaskEl.setAttribute('draggable', 'draggable')
+
+// create addData to taskel
+TaskEl.innerHTML = `
+<input type="text" value="${ProgressTasks.text}" " readonly>
+<button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+<button class="delete" onclick="removeTransTask2(${ProgressTasks.id})">XXX</button>
+
+`
+
+// Append task to list
+progressList.appendChild(TaskEl)
+document.getElementById('text-box').classList.remove('show')
+
+
+
+}
+
+function addTransPross(){
+  const ProgressTask = {
+    id: generateID(),
+    text: textarea.value
+  }
+  ProgressTasks.push(ProgressTask)
+  addProssedDom(ProgressTask)
+  setProgressTasks()
+  textarea.value = ''
+
+}
+
+
+function addCompDom(CompletedTasks){
+  
+  const TaskEl = document.createElement('div');
+
+// create taskel
+TaskEl.className = 'draggable'
+TaskEl.setAttribute('draggable', 'draggable')
+
+// create addData to taskel
+TaskEl.innerHTML = `
+<input type="text" value="${CompletedTasks.text}" " readonly>
+<button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+<button class="delete" onclick="removeTransTask3(${CompletedTasks.id})">XXX</button>
+
+`
+
+// Append task to list
+completedList.appendChild(TaskEl)
+document.getElementById('text-box').classList.remove('show')
+
+
+
+}
+
+function addTransComp(){
+  const CompTask = {
+    id: generateID(),
+    text: textarea.value
+  }
+  CompletedTasks.push(CompTask)
+  addCompDom(CompTask)
+  setCompletedTasks()
+  textarea.value = ''
+
+}
+
+
+
+
+function setStartedTasks(){
+  localStorage.setItem('StartedTasks', JSON.stringify(StartedTasks))
+}
+
+
+function setProgressTasks(){
+  localStorage.setItem('ProgressTasks', JSON.stringify(ProgressTasks))
+
+}
+
+
+function setCompletedTasks(){
+  localStorage.setItem('CompletedTasks', JSON.stringify(CompletedTasks))
+
+}
+
+function removeTransTask1(id){
+  StartedTasks = StartedTasks.filter((item) => item.id !== id)
+  init();
+  setStartedTasks()
+
+}
+
+function removeTransTask2(id){
+  ProgressTasks = ProgressTasks.filter((item) => item.id !== id)
+  init();
+  setProgressTasks()
+
+}
+
+function removeTransTask3(id){
+  CompletedTasks = CompletedTasks.filter((item) => item.id !== id)
+  init();
+  setCompletedTasks()
+
+}
+
+
+
+// listen to buttons
+function targetListByBtn1(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addTransStart)
+  addTask2.addEventListener('click', addTransPross)
+  addTask3.addEventListener('click', addTransComp)  
+  // console.log("strta")
+}
+
+
+
+// listen to buttons
+function targetListByBtn2(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addTransStart)
+  addTask2.addEventListener('click', addTransPross)
+  addTask3.addEventListener('click', addTransComp)  
+  // console.log("strta")
+}
+
+
+
+// listen to buttons
+function targetListByBtn3(){
+  document.getElementById('text-box').classList.add('show')
+  addTask1.addEventListener('click', addTransStart)
+  addTask2.addEventListener('click', addTransPross)
+  addTask3.addEventListener('click', addTransComp)
+  
+  // console.log("strta")
+}
+
+
+
+// open add task container
+addStart.addEventListener('click', targetListByBtn1)
+addProg.addEventListener('click', targetListByBtn2)
+addComp.addEventListener('click', targetListByBtn3)
+
+// close add task container
+closeBtn.addEventListener('click', () => {
+  document.getElementById('text-box').classList.remove('show')
+})
+
+function init(){
+  startedList.innerHTML =''
+  StartedTasks.forEach(addStartedDom)
+
+  progressList.innerHTML =''
+  ProgressTasks.forEach(addProssedDom)
+
+  completedList.innerHTML =''
+  CompletedTasks.forEach(addCompDom)
+  
+}
+
+init()
+
+
+
+*/
