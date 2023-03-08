@@ -5,10 +5,6 @@
 }
 
 html {
-  /* font-size: 10px; */
-
-  /* 10px / 16px = 0.625 = 62.5% */
-  /* Percentage of user's browser font-size setting */
   font-size: 62.5%;
 }
 
@@ -22,7 +18,6 @@ body {
   text-align: center;
   flex-direction: column;
   position: relative;
-  /* Only works if there is nothing absolutely positioned in relation to body */
   background-color: #009578;
   scroll-behavior: smooth;
 }
@@ -61,6 +56,11 @@ header h1{
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  width: 100%;
+}
+
+ul{
+  width: 100%;
 }
 
 .list-container h1{
@@ -69,6 +69,10 @@ header h1{
   font-size: 3.2rem;
   margin-bottom: 1.2rem;
   text-align: center;
+}
+
+ul{
+  list-style-type: none;
 }
 
 .add{
@@ -97,6 +101,10 @@ header h1{
   border-radius: 9px;
   display: flex;
   gap: 1.2rem;
+}
+
+.draggable.over{
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .draggable input{
@@ -259,217 +267,7 @@ textarea.error{
 
 
 
-/* Last Modify Js code
-
-
-
-
-
-const addStart = document.querySelector('.addStart')
-const addProg = document.querySelector('.addProg')
-const addComp = document.querySelector('.addComp')
-let startedList = document.querySelector('.started-list')
-let progressList = document.querySelector('.progress-list')
-let completedList = document.querySelector('.completed-list')
-const closeBtn = document.getElementById('close');
-const addTask1 = document.getElementById('addTask1');
-const addTask2 = document.getElementById('addTask2');
-const addTask3 = document.getElementById('addTask3');
-const textarea = document.getElementById('text');
-
-
-
-// listen to buttons
-function targetListByBtn1(){
-  document.getElementById('text-box').classList.add('show')
-  addTask1.addEventListener('click', addToList1)
-  addTask2.addEventListener('click', addToList2)
-  addTask3.addEventListener('click', addToList3)  
-  // console.log("strta")
-}
-
-// add new task to target list (listName)
-function addToList1(){
-  // Show AddTask Layout
-  const TaskEl = document.createElement('div');
-
-    // create taskel
-    TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'draggable')
-
-    // create addData to taskel
-    TaskEl.innerHTML = `
-    <input type="text" value="hoho" readonly>
-    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
-    `
-    // Append task to list
-    startedList.appendChild(TaskEl)
-    // console.log(startedList.lastElementChild); 
-
-    // Add Value from user to current new task
-    startedList.lastElementChild.querySelector('input').value = textarea.value
-    
-    document.getElementById('text-box').classList.remove('show')
-    textarea.value = ''
-}
-
-// listen to buttons
-function targetListByBtn2(){
-  document.getElementById('text-box').classList.add('show')
-  addTask1.addEventListener('click', addToList1)
-  addTask2.addEventListener('click', addToList2)
-  addTask3.addEventListener('click', addToList3)  
-  // console.log("strta")
-}
-
-// add new task to target list (listName)
-function addToList2(){
-  // Show AddTask Layout
-  const TaskEl = document.createElement('div');
-
-    // create taskel
-    TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'draggable')
-
-    // create addData to taskel
-    TaskEl.innerHTML = `
-    <input type="text" value="hoho" readonly>
-    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
-    `
-    // Append task to list
-    progressList.appendChild(TaskEl)
-    // console.log(startedList.lastElementChild); 
-
-    // Add Value from user to current new task
-    progressList.lastElementChild.querySelector('input').value = textarea.value
-    
-    document.getElementById('text-box').classList.remove('show')
-    textarea.value = ''
-}
-
-// listen to buttons
-function targetListByBtn3(){
-  document.getElementById('text-box').classList.add('show')
-  addTask1.addEventListener('click', addToList1)
-  addTask2.addEventListener('click', addToList2)
-  addTask3.addEventListener('click', addToList3)
-  
-  // console.log("strta")
-}
-
-// add new task to target list (listName)
-function addToList3(){
-  // Show AddTask Layout
-  const TaskEl = document.createElement('div');
-
-    // create taskel
-    TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'draggable')
-
-    // create addData to taskel
-    TaskEl.innerHTML = `
-    <input type="text" value="hoho" readonly>
-    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-    <button class="delete"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
-    `
-    // Append task to list
-    completedList.appendChild(TaskEl)
-    // console.log(startedList.lastElementChild); 
-
-    // Add Value from user to current new task
-    completedList.lastElementChild.querySelector('input').value = textarea.value
-    
-    document.getElementById('text-box').classList.remove('show')
-    textarea.value = ''
-}
-
-
-// open add task container
-addStart.addEventListener('click', targetListByBtn1)
-addProg.addEventListener('click', targetListByBtn2)
-addComp.addEventListener('click', targetListByBtn3)
-
-// close add task container
-closeBtn.addEventListener('click', () => {
-  document.getElementById('text-box').classList.remove('show')
-})
-
-
-*/
-
-
-
-/* Add and remove smooth 
-
-
-let StartedTasks = localStorage.getItem('StartedTasks') !== null ?
-JSON.parse(localStorage.getItem('StartedTasks')) : []
-function generateID() {
-  return Math.floor(Math.random() * 100000000);
-}
-
-function addStartedDom(StartedTasks){
-  
-      const TaskEl = document.createElement('div');
-
-    // create taskel
-    TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'draggable')
-
-    // create addData to taskel
-    TaskEl.innerHTML = `
-    <input type="text" value="${StartedTasks.text}" " readonly>
-    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-    <button class="delete" onclick="removeTransTask1(${StartedTasks.id})">XXX</button>
-
-    `
-
-    // Append task to list
-    startedList.appendChild(TaskEl)
-
-    
-  
-}
-function addTransTask1(){
-  const StartTask = {
-    id: generateID(),
-    text: textarea.value
-  }
-  StartedTasks.push(StartTask)
-  addStartedDom(StartTask)
-  setStartedTasks()
-  textarea.value = ''
-
-}
-function setStartedTasks(){
-  localStorage.setItem('StartedTasks', JSON.stringify(StartedTasks))
-}
-function removeTransTask1(id){
-  StartedTasks = StartedTasks.filter((item) => item.id !== id)
-  init();
-  setStartedTasks()
-
- 
-  
-}
-function init(){
-  startedList.innerHTML =''
-  StartedTasks.forEach(addStartedDom)
-  
-}
-
-
-*/
-
-
-
-/* Last update (set to and get data from local storage for all tasks mode (Complete Code)
-
+/* 
 
 const addStart = document.querySelector('.addStart')
 const addProg = document.querySelector('.addProg')
@@ -504,15 +302,18 @@ function addStartedDom(StartedTasks){
 
     // create taskel
     TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'draggable')
+    TaskEl.setAttribute('draggable', 'true')
 
     // create addData to taskel
     TaskEl.innerHTML = `
-    <input type="text" value="${StartedTasks.text}" " readonly>
-    <button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-    <button class="delete" onclick="removeTransTask1(${StartedTasks.id})">XXX</button>
+    <input type="text" id='in${StartedTasks.id}' value="${StartedTasks.text}" readonly='true'>
+    <button class="edit" onclick="editTransTask(document.getElementById('in${StartedTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+    <button class="delete" onclick="removeTransTask1(${StartedTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
 
     `
+    // onclick="editTransTask1(TaskEl.querySelector('input))"
+  
+    // console.log(TaskEl)
 
     // Append task to list
     startedList.appendChild(TaskEl)
@@ -525,6 +326,7 @@ function addStartedDom(StartedTasks){
 
 
 function addTransStart(){
+  if(textarea.value.trim() !== ''){
   const StartTask = {
     id: generateID(),
     text: textarea.value
@@ -533,7 +335,13 @@ function addTransStart(){
   addStartedDom(StartTask)
   setStartedTasks()
   textarea.value = ''
+  }else{
+    document.getElementById('text').classList.add('error')
+    setTimeout(() => {
+      document.getElementById('text').classList.remove('error')
+    }, 500);
 
+  }
 }
 
 
@@ -543,13 +351,13 @@ function addProssedDom(ProgressTasks){
 
 // create taskel
 TaskEl.className = 'draggable'
-TaskEl.setAttribute('draggable', 'draggable')
+TaskEl.setAttribute('draggable', 'true')
 
 // create addData to taskel
 TaskEl.innerHTML = `
-<input type="text" value="${ProgressTasks.text}" " readonly>
-<button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-<button class="delete" onclick="removeTransTask2(${ProgressTasks.id})">XXX</button>
+<input type="text" id='in${ProgressTasks.id}' value="${ProgressTasks.text}" " readonly>
+<button class="edit" onclick="editTransTask(document.getElementById('in${ProgressTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+<button class="delete" onclick="removeTransTask2(${ProgressTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
 
 `
 
@@ -562,6 +370,8 @@ document.getElementById('text-box').classList.remove('show')
 }
 
 function addTransPross(){
+  if(textarea.value.trim() !== ''){
+  
   const ProgressTask = {
     id: generateID(),
     text: textarea.value
@@ -570,7 +380,13 @@ function addTransPross(){
   addProssedDom(ProgressTask)
   setProgressTasks()
   textarea.value = ''
+  }else{
+    document.getElementById('text').classList.add('error')
+    setTimeout(() => {
+      document.getElementById('text').classList.remove('error')
+    }, 500);
 
+  }
 }
 
 
@@ -580,13 +396,13 @@ function addCompDom(CompletedTasks){
 
 // create taskel
 TaskEl.className = 'draggable'
-TaskEl.setAttribute('draggable', 'draggable')
+TaskEl.setAttribute('draggable', 'true')
 
 // create addData to taskel
 TaskEl.innerHTML = `
-<input type="text" value="${CompletedTasks.text}" " readonly>
-<button class="edit"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
-<button class="delete" onclick="removeTransTask3(${CompletedTasks.id})">XXX</button>
+<input type="text" id='in${CompletedTasks.id}' value="${CompletedTasks.text}"  readonly>
+<button class="edit" onclick="editTransTask(document.getElementById('in${CompletedTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
+<button class="delete" onclick="removeTransTask3(${CompletedTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
 
 `
 
@@ -599,6 +415,7 @@ document.getElementById('text-box').classList.remove('show')
 }
 
 function addTransComp(){
+  if(textarea.value.trim() !== ''){
   const CompTask = {
     id: generateID(),
     text: textarea.value
@@ -607,7 +424,13 @@ function addTransComp(){
   addCompDom(CompTask)
   setCompletedTasks()
   textarea.value = ''
+  }else{
+    document.getElementById('text').classList.add('error')
+    setTimeout(() => {
+      document.getElementById('text').classList.remove('error')
+    }, 500);
 
+  }
 }
 
 
@@ -650,6 +473,23 @@ function removeTransTask3(id){
 
 }
 
+
+function editTransTask(el){
+  console.log(el);
+  el.removeAttribute('readonly')
+  el.value = ''
+  el.focus()
+  el.classList.add('focus')
+  el.addEventListener('focusout', () => {
+    el.setAttribute('readonly', 'true')
+
+    el.classList.remove('focus')
+    updateStorageTask1()
+    updateStorageTask2()
+    updateStorageTask3()
+    init()
+  })
+}
 
 
 // listen to buttons
@@ -712,4 +552,134 @@ init()
 
 
 
-*/
+
+let draggables = document.querySelectorAll('.draggable')
+const containers = document.querySelectorAll('.container')
+
+draggables.forEach(draggable => {
+  draggable.addEventListener('dragstart', () => {
+    draggable.classList.add('dragging')
+  })
+
+  draggable.addEventListener('dragend', () => {
+    draggable.classList.remove('dragging')
+    draggable.classList.remove('bb-drag')
+
+
+  })
+
+  draggable.addEventListener('dragover', () => {
+    draggable.classList.add('bb-drag')
+  })
+
+  draggable.addEventListener('dragleave', () => {
+    draggable.classList.remove('bb-drag')
+    draggable.classList.remove('dragging')
+
+  })
+
+  draggable.addEventListener('drop', () => {
+    draggable.classList.remove('bb-drag')
+
+  })
+
+  // draggable.classList.remove('bb-drag')
+  
+})
+
+containers.forEach(container => {
+  container.addEventListener('dragover', e => {
+    e.preventDefault()
+    const afterElement = getDragAfterElement(container, e.clientY)
+    const draggable = document.querySelector('.dragging')
+    if (afterElement == null) {
+      container.appendChild(draggable)
+    } else {
+      container.insertBefore(draggable, afterElement)
+    }
+    updateStorageTask1()
+    updateStorageTask2()
+    updateStorageTask3()
+  })
+
+})
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect()
+    const offset = y - box.top - box.height / 2
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child }
+    } else {
+      return closest
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+
+
+function updateStorageTask1(){
+  StartedTasks = []
+  containers.forEach((item, idx) => {
+    if(idx === 0){
+      let allDataTask1 = item.querySelectorAll('div')
+      allDataTask1.forEach((diiv) => {
+        if(diiv.querySelector('input').value.trim() !== ''){
+        const firsttask = {
+          id: generateID(),
+          text: diiv.querySelector('input').value
+          
+        };
+        StartedTasks.push(firsttask)
+        }
+      })
+    }
+  })
+  setStartedTasks()
+}
+
+function updateStorageTask2(){
+  ProgressTasks = []
+  containers.forEach((item, idx) => {
+    if(idx === 1){
+      let allDataTask1 = item.querySelectorAll('div')
+      allDataTask1.forEach((diiv) => {
+        if(diiv.querySelector('input').value.trim() !== ''){
+        const firsttask = {
+          id: generateID(),
+          text: diiv.querySelector('input').value
+          
+        };
+        ProgressTasks.push(firsttask)
+      }
+      })
+    }
+  })
+  setProgressTasks()
+}
+
+function updateStorageTask3(){
+  CompletedTasks = []
+  containers.forEach((item, idx) => {
+    if(idx === 2){
+      let allDataTask1 = item.querySelectorAll('div')
+      allDataTask1.forEach((diiv) => {
+        if(diiv.querySelector('input').value.trim() !== ''){
+        const firsttask = {
+          id: generateID(),
+          text: diiv.querySelector('input').value
+          
+        };
+        CompletedTasks.push(firsttask)
+      }
+      })
+    }
+  })
+  setCompletedTasks()
+}
+
+
+
+
+ */
