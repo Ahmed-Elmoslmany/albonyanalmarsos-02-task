@@ -182,7 +182,9 @@ function removeTransTask1(id){
   
   init();
   setStartedTasks()
-  location.reload() 
+  setTimeout(() => {
+    location.reload()
+  }, 300); 
   
 
 }
@@ -194,18 +196,22 @@ function removeTransTask2(id){
   init();
   setProgressTasks()
  
-  location.reload() 
+  setTimeout(() => {
+    location.reload()
+  }, 300);
 
 }
 
 function removeTransTask3(id){
   CompletedTasks = CompletedTasks.filter((item) => item.id !== id)
-  
+
   
 
   init();
   setCompletedTasks()
-  location.reload()
+  setTimeout(() => {
+    location.reload()
+  }, 300);
 
 }
 
@@ -455,5 +461,9 @@ function getDragAfterElement(container, y) {
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 /* End Drag and Drop desktop test */
+
+
+
+
 
 
