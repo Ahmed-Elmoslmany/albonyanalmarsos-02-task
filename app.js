@@ -19,6 +19,7 @@ JSON.parse(localStorage.getItem('CompletedTasks')) : []
 
 
 
+
 // Generate random ID
 function generateID() {
   return Math.floor(Math.random() * 100000000);
@@ -27,18 +28,16 @@ function generateID() {
 
 function addStartedDom(StartedTasks){
   
-      const TaskEl = document.createElement('div');
+      const TaskEl = document.createElement('li');
 
-    // create taskel
-    TaskEl.className = 'draggable'
-    TaskEl.setAttribute('draggable', 'true')
+      TaskEl.className = 'draggable'
+      TaskEl.setAttribute('draggable', 'true')
 
     // create addData to taskel
     TaskEl.innerHTML = `
     <input type="text" id='in${StartedTasks.id}' value="${StartedTasks.text}" readonly='true'>
     <button class="edit" onclick="editTransTask(document.getElementById('in${StartedTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
     <button class="delete" onclick="removeTransTask1(${StartedTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
     `
     // onclick="editTransTask1(TaskEl.querySelector('input))"
   
@@ -76,18 +75,16 @@ function addTransStart(){
 
 function addProssedDom(ProgressTasks){
   
-  const TaskEl = document.createElement('div');
+  const TaskEl = document.createElement('li');
 
-// create taskel
-TaskEl.className = 'draggable'
-TaskEl.setAttribute('draggable', 'true')
+  TaskEl.className = 'draggable'
+  TaskEl.setAttribute('draggable', 'true')
 
 // create addData to taskel
 TaskEl.innerHTML = `
 <input type="text" id='in${ProgressTasks.id}' value="${ProgressTasks.text}" " readonly>
 <button class="edit" onclick="editTransTask(document.getElementById('in${ProgressTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
 <button class="delete" onclick="removeTransTask2(${ProgressTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
 `
 
 // Append task to list
@@ -121,18 +118,16 @@ function addTransPross(){
 
 function addCompDom(CompletedTasks){
   
-  const TaskEl = document.createElement('div');
+  const TaskEl = document.createElement('li');
 
-// create taskel
-TaskEl.className = 'draggable'
-TaskEl.setAttribute('draggable', 'true')
+  TaskEl.className = 'draggable'
+  TaskEl.setAttribute('draggable', 'true')
 
 // create addData to taskel
 TaskEl.innerHTML = `
 <input type="text" id='in${CompletedTasks.id}' value="${CompletedTasks.text}"  readonly>
 <button class="edit" onclick="editTransTask(document.getElementById('in${CompletedTasks.id}'))"><ion-icon class="icon edit" name="create-outline"></ion-icon></button>
 <button class="delete" onclick="removeTransTask3(${CompletedTasks.id})"><ion-icon class="icon delete" name="trash-outline"></ion-icon></button>
-
 `
 
 // Append task to list
@@ -183,22 +178,34 @@ function setCompletedTasks(){
 
 function removeTransTask1(id){
   StartedTasks = StartedTasks.filter((item) => item.id !== id)
+ 
+  
   init();
   setStartedTasks()
+  location.reload() 
+  
 
 }
 
 function removeTransTask2(id){
   ProgressTasks = ProgressTasks.filter((item) => item.id !== id)
+  
+  
   init();
   setProgressTasks()
+ 
+  location.reload() 
 
 }
 
 function removeTransTask3(id){
   CompletedTasks = CompletedTasks.filter((item) => item.id !== id)
+  
+  
+
   init();
   setCompletedTasks()
+  location.reload()
 
 }
 
@@ -217,7 +224,9 @@ function editTransTask(el){
     updateStorageTask2()
     updateStorageTask3()
     init()
+    location.reload()
   })
+  
 }
 
 
@@ -279,80 +288,11 @@ function init(){
 
 init()
 
-
-
-/* Drag and Drop test */
-let draggables = document.querySelectorAll('.draggable')
-const containers = document.querySelectorAll('.container')
-
-draggables.forEach(draggable => {
-  draggable.addEventListener('dragstart', () => {
-    draggable.classList.add('dragging')
-  })
-
-  draggable.addEventListener('dragend', () => {
-    draggable.classList.remove('dragging')
-    draggable.classList.remove('bb-drag')
-
-
-  })
-
-  draggable.addEventListener('dragover', () => {
-    draggable.classList.add('bb-drag')
-  })
-
-  draggable.addEventListener('dragleave', () => {
-    draggable.classList.remove('bb-drag')
-    draggable.classList.remove('dragging')
-
-  })
-
-  draggable.addEventListener('drop', () => {
-    draggable.classList.remove('bb-drag')
-
-  })
-
-  // draggable.classList.remove('bb-drag')
-  
-})
-
-containers.forEach(container => {
-  container.addEventListener('dragover', e => {
-    e.preventDefault()
-    const afterElement = getDragAfterElement(container, e.clientY)
-    const draggable = document.querySelector('.dragging')
-    if (afterElement == null) {
-      container.appendChild(draggable)
-    } else {
-      container.insertBefore(draggable, afterElement)
-    }
-    updateStorageTask1()
-    updateStorageTask2()
-    updateStorageTask3()
-  })
-
-})
-
-function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
-
-  return draggableElements.reduce((closest, child) => {
-    const box = child.getBoundingClientRect()
-    const offset = y - box.top - box.height / 2
-    if (offset < 0 && offset > closest.offset) {
-      return { offset: offset, element: child }
-    } else {
-      return closest
-    }
-  }, { offset: Number.NEGATIVE_INFINITY }).element
-}
-
-
 function updateStorageTask1(){
   StartedTasks = []
   containers.forEach((item, idx) => {
     if(idx === 0){
-      let allDataTask1 = item.querySelectorAll('div')
+      let allDataTask1 = item.querySelectorAll('li')
       allDataTask1.forEach((diiv) => {
         if(diiv.querySelector('input').value.trim() !== ''){
         const firsttask = {
@@ -372,7 +312,7 @@ function updateStorageTask2(){
   ProgressTasks = []
   containers.forEach((item, idx) => {
     if(idx === 1){
-      let allDataTask1 = item.querySelectorAll('div')
+      let allDataTask1 = item.querySelectorAll('li')
       allDataTask1.forEach((diiv) => {
         if(diiv.querySelector('input').value.trim() !== ''){
         const firsttask = {
@@ -392,7 +332,7 @@ function updateStorageTask3(){
   CompletedTasks = []
   containers.forEach((item, idx) => {
     if(idx === 2){
-      let allDataTask1 = item.querySelectorAll('div')
+      let allDataTask1 = item.querySelectorAll('li')
       allDataTask1.forEach((diiv) => {
         if(diiv.querySelector('input').value.trim() !== ''){
         const firsttask = {
@@ -408,5 +348,112 @@ function updateStorageTask3(){
   setCompletedTasks()
 }
 
+/* Drag and Drop desktop test */
+let draggables = document.querySelectorAll('.draggable')
+const containers = document.querySelectorAll('.container')
 
-/* End Drag and Drop test */
+draggables.forEach(draggable => {
+  draggable.addEventListener('dragstart', () => {
+    draggable.classList.add('dragging')
+   
+  })
+
+  
+  draggable.addEventListener('dragend', () => {
+    draggable.classList.remove('dragging')
+    draggable.classList.remove('bb-drag')
+    
+    setStartedTasks()
+    setCompletedTasks()
+    setProgressTasks()
+
+
+  })
+
+  draggable.addEventListener('dragover', () => {
+    draggable.classList.add('bb-drag')
+  })
+
+  draggable.addEventListener('dragleave', () => {
+    draggable.classList.remove('bb-drag')
+
+  })
+
+
+
+  draggable.addEventListener('drop', () => {
+    draggable.classList.remove('bb-drag')
+    draggable.classList.remove('dragging')
+
+  })
+
+
+  // touch
+  draggable.addEventListener('touchstart', () => {
+    draggable.classList.add('dragging')
+   
+  })
+
+  draggable.addEventListener('touchend', () => {
+    draggable.classList.remove('dragging')
+
+  })
+
+  
+})
+
+containers.forEach(container => {
+  container.addEventListener('dragover', e => {
+    e.preventDefault()
+    console.log(e.clientY)
+    const afterElement = getDragAfterElement(container, e.clientY)
+    const draggable = document.querySelector('.dragging')
+    if (afterElement == null) {
+      container.appendChild(draggable)
+    } else {
+      container.insertBefore(draggable, afterElement)
+    }
+    updateStorageTask1()
+    updateStorageTask2()
+    updateStorageTask3()
+  })
+
+  
+
+})
+
+containers.forEach(container => {
+container.addEventListener('touchmove', e => {
+  e.preventDefault()
+  // console.log(e.targetTouches[0].clientY)
+  const afterElement = getDragAfterElement(container, e.targetTouches[0].clientY)
+  const draggable = document.querySelector('.dragging')
+  if (afterElement == null) {
+    container.appendChild(draggable)
+  } else {
+    container.insertBefore(draggable, afterElement)
+  }
+  updateStorageTask1()
+  updateStorageTask2()
+  updateStorageTask3()
+})
+
+})
+
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect()
+    const offset = y - box.top - box.height / 2
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child }
+    } else {
+      return closest
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element
+}
+/* End Drag and Drop desktop test */
+
+
