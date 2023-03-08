@@ -394,10 +394,9 @@ draggables.forEach(draggable => {
   })
 
 
-  // touch
+  // touch 
   draggable.addEventListener('touchstart', () => {
     draggable.classList.add('dragging')
-   
   })
 
   draggable.addEventListener('touchend', () => {
@@ -428,23 +427,38 @@ containers.forEach(container => {
 
 })
 
-containers.forEach(container => {
-container.addEventListener('touchmove', e => {
-  e.preventDefault()
-  // console.log(e.targetTouches[0].clientY)
-  const afterElement = getDragAfterElement(container, e.targetTouches[0].clientY)
-  const draggable = document.querySelector('.dragging')
-  if (afterElement == null) {
-    container.appendChild(draggable)
-  } else {
-    container.insertBefore(draggable, afterElement)
-  }
-  updateStorageTask1()
-  updateStorageTask2()
-  updateStorageTask3()
-})
+containers.forEach((container) => {
+  container.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    // console.log(e.targetTouches[0].clientY)
+    const afterContainer = getDragAfterContainerTouched(e.targetTouches[0].clientY);
+    if (afterContainer) {
+      const afterElement = getDragAfterElement(
+        afterContainer,
+        e.targetTouches[0].clientY
+      );
+      const draggable = document.querySelector('.dragging');
+      if (afterElement == null) {
+        afterContainer.appendChild(draggable);
+      } else {
+        afterContainer.insertBefore(draggable, afterElement);
+      }
+      updateStorageTask1();
+      updateStorageTask2();
+      updateStorageTask3();
+    }
+  });
+});
 
-})
+function getDragAfterContainerTouched(y) {
+  const lists = [...document.getElementsByTagName('ul')];
+  return lists.find((el) => {
+    const box = el.getBoundingClientRect();
+    if (y >= box.top && y <= box.bottom) {
+      return el;
+    }
+  });
+}
 
 
 function getDragAfterElement(container, y) {
@@ -461,9 +475,3 @@ function getDragAfterElement(container, y) {
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 /* End Drag and Drop desktop test */
-
-
-
-
-
-
